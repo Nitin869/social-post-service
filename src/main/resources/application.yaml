@@ -1,0 +1,19 @@
+server:
+    port: 8081
+
+spring:
+  application:
+    name: post-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/socialapp_posts
+    username: postgres
+    password: "#1Nitinkumar"
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
