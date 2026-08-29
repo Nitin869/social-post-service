@@ -1,4 +1,4 @@
-package com.socialapp.postservice.dto;
+package com.socialapp.postservice.exception;
 
 import lombok.Builder;
 import lombok.Data;
