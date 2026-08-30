@@ -53,7 +53,7 @@ public class PostService {
     public void deletePost(Long postId, Long userId){
         Post post = postRepository.findById(postId)
                 .orElseThrow(()->new PostNotFoundException(postId));
-        if(post.getUserId().equals(userId))
+        if(!post.getUserId().equals(userId))
             throw new UnauthorizedActionException("You can only delete your own posts");
         postRepository.deleteById(postId);
     }
@@ -95,6 +95,15 @@ public class PostService {
         return toCommentResponse(comment);
     }
 
+    public List<CommentResponse> getComments(Long postId){
+        if(!postRepository.existsById(postId))
+            throw new PostNotFoundException(postId);
+        return commentRepository.findByPostIdOrderByTimestampDesc(postId)
+                .stream()
+                .map(this::toCommentResponse)
+                .toList();
+    }
+
     //Like & Unlike
     @Transactional
     public PostResponse likePost(Long postId, Long userId){
@@ -131,15 +140,6 @@ public class PostService {
         postRepository.save(post);
 
         return toPostResponse(post);
-    }
-
-    public List<CommentResponse> getComments(Long postId){
-        if(!postRepository.existsById(postId))
-                throw new PostNotFoundException(postId);
-        return commentRepository.findByPostIdOrderByTimestampDesc(postId)
-                .stream()
-                .map(this::toCommentResponse)
-                .toList();
     }
 
     private PostResponse toPostResponse(Post post) {

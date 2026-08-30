@@ -28,9 +28,11 @@ public class Post {
     private String image;
 
     @ColumnDefault("0")
+    @Builder.Default
     private Long likeCount = 0L;
 
     @ColumnDefault("0")
+    @Builder.Default
     private Long commentCount = 0L;
 
     @CreationTimestamp
